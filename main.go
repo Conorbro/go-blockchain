@@ -14,9 +14,9 @@ var (
 func main() {
 	kingpin.CommandLine.HelpFlag.Short('h')
 	kingpin.Parse()
-	fmt.Println("Simple Blockchain Demo!")
 
-	bChain := blockChain{}
+	fmt.Printf("############\nSimple Blockchain Demo\n!############\n")
+	var bChain Blockchain
 	startTime := time.Now()
 	bChain.addBlock([]string{"Conor sent Dan 20 bitcoin", "Gerry sent Bob 0.01 bitcoin", "Fred sent Mary 243 bitcoin"})
 	bChain.addBlock([]string{"Conor sent Jamie 1 bitcoin", "Barry sent Sean 0.01 bitcoin", "Shane sent Mary 0.29 bitcoin"})

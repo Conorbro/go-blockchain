@@ -8,34 +8,36 @@ import (
 
 const randStringLength = 25
 
-type block struct {
+// Block - block in the blockchain
+type Block struct {
 	blockHash    string
 	previousHash string
 	transactions []string
 }
 
-type blockChain struct {
-	blocks []block
+// Blockchain - slice of block references
+type Blockchain struct {
+	blocks []*Block
 }
 
-func (b *blockChain) addBlock(transactions []string) {
+func (b *Blockchain) addBlock(transactions []string) {
 	var blockHash, previousHash string
 	if len(b.blocks) == 0 {
 		previousHash = "0000000000000000000000000000000000000000000000000000000000000000"
 		blockHash = genSHA(strings.Join(transactions, ""))
 	} else {
 		previousHash = b.blocks[len(b.blocks)-1].blockHash
-		blockHash = generateNextHash(b.blocks[len(b.blocks)-1])
+		blockHash = generateNextHash(*b.blocks[len(b.blocks)-1])
 	}
 	b.blocks = append(b.blocks,
-		block{
+		&Block{
 			blockHash:    blockHash,
 			previousHash: previousHash,
 			transactions: transactions,
 		})
 }
 
-func generateNextHash(b block) string {
+func generateNextHash(b Block) string {
 	for {
 		answer := randStringBytesMaskImprSrc(randStringLength)
 		attempt := b.previousHash + answer
@@ -54,7 +56,7 @@ func genSHA(input string) string {
 	return res
 }
 
-func (b *blockChain) printChain() {
+func (b *Blockchain) printChain() {
 	for _, block := range b.blocks {
 		fmt.Println(block)
 	}
